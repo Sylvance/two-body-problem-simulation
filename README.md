@@ -10,14 +10,14 @@ Simulation of the classical two-body problem in the context of the earth and art
 
 ## Simulation Equations
 - Considering a bodies in such condtions below;
-http://www.braeunig.us/space/pics/fig4-03.gif
+![Image1](http://www.braeunig.us/space/pics/fig4-03.gif)
 - Then we are able to define `R` and `V`.
 
 ### R, the position from the primary body of the orbiting body
-http://www.braeunig.us/space/pics/eq4-43.gif
+![Image2](http://www.braeunig.us/space/pics/eq4-43.gif)
 
 ### V, the orbiting body's velocity
-http://www.braeunig.us/space/pics/eq4-45.gif
+![Image3](http://www.braeunig.us/space/pics/eq4-45.gif)
 
 ## Dependecies
 - numpy
