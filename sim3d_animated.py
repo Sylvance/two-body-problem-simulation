@@ -3,7 +3,7 @@
 3D animation
 ============
 
-A simple example of an animated plot... In 3D!
+1KUNS-PF satellite orbit in 3D!
 """
 import numpy as np
 import matplotlib.pyplot as plt
