@@ -58,6 +58,8 @@ class OrbitingBody(Body):
         turtle_alias.forward(int(r))
         turtle_alias.pendown()
         turtle_alias.dot()
+        turtle_alias.color('white')
+        turtle_alias.dot()
         print("Moved to {}".format(turtle_alias.pos()))
         return True
     
@@ -71,6 +73,7 @@ def loop(earth, satellite):
     timelimit = 3600 # One day
     primary = turtle.Turtle()
     secondary = turtle.Turtle()
+    secondary.speed(0)
     primary_params = {
         'color': 'red',
         'size': 25
