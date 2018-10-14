@@ -26,7 +26,7 @@ class Satellite(object):
         self.inclination = inclination
         self.current_true_anomaly = true_anomaly
         self.elapsed_time = 0
-        self.dt = 1
+        self.dt = 0.1
 
     def apogee_in_km(self):
         return self.semi_major_axis * (1+self.eccentricity)
@@ -98,11 +98,17 @@ class Satellite(object):
         self.current_true_anomaly = self.calculate_current_true_anomaly()
         radius = self.orbital_radius()
         return [radius, self.current_true_anomaly, self.inclination, self.elapsed_time]
+    
+    def compute_initial_orbit(self, true_anomaly):
+        e = self.eccentricity
+        m = true_anomaly
+        a = self.semi_major_axis
+        r = a*(1-math.pow(e, 2))/1+(e*math.cos(m))
+        return [r, true_anomaly, self.inclination]
 
-kuns = Satellite(1, 0.01, 7500, 45, 69) # Satellite(mass, eccentricity, semi_major_axis, inclination, true_anomaly)
+kuns = Satellite(1, 0.01, 7500, 145, 69) # Satellite(mass, eccentricity, semi_major_axis, inclination, true_anomaly)
 
 def update_satelite_position(number):
-    plt.clf()  # Clear the figure
     data = kuns.compute_current_postion()
     r = data[0]
     v = data[1]
@@ -119,27 +125,15 @@ def update_satelite_position(number):
     string = 'Time $t$ = '+str(et)+''
     plt.suptitle(string)
 
-    ax.scatter(coordsX, coordsY, coordsZ, c='yellow', marker='o')
-    # ax.plot(coordsX, coordsY, coordsZ, label='orbit')
+    p = ax.scatter(coordsX, coordsY, coordsZ, c='maroon', marker='o', zorder=5, s=100)
+    plt.pause(0.01)
+    p.remove()
     return number
     
 
 # Attaching 3D axis to the figure
 fig = plt.figure()
 ax = p3.Axes3D(fig)
-x = np.linspace(0, 1, 100)
-y = np.sin(x * 2 * np.pi) / 2 + 0.5
-ax.plot(x, y, zs=0.8, zdir='z', label='curve in (x,y)')
-
-# Make earth data
-u = np.linspace(0, 2 * np.pi, 1000)
-v = np.linspace(0, np.pi, 1000)
-x = 3370 * np.outer(np.cos(u), np.sin(v))
-y = 3370 * np.outer(np.sin(u), np.sin(v))
-z = 4000 * np.outer(np.ones(np.size(u)), np.cos(v))
-
-# Plot the earth surface
-ax.plot_surface(x, y, z, color='turquoise')
 
 # Setting the axes properties
 ax.set_xlim3d([-8000, 8000.0])
@@ -151,10 +145,45 @@ ax.set_ylabel('Y')
 ax.set_zlim3d([-8000, 8000.0])
 ax.set_zlabel('Z')
 
-ax.set_title('\n Two Body Problem simulation: 1KUNS-PF Satellite')
+ax.set_title('\n \n Two Body Problem simulation: 1KUNS-PF Satellite')
 ax.legend()
+xvalues = []
+yvalues = []
+zvalues = []
+orders = []
+for angle in np.arange(0.0, 360.0, 0.1):
+    data = kuns.compute_initial_orbit(angle)
+    r = data[0]
+    v = data[1]
+    i = data[2]
+    x = r * math.sin(v) * math.cos(i)
+    y = r * math.sin(v) * math.sin(i)
+    z = r * math.cos(v)
+    xvalues.append(x)
+    yvalues.append(y)
+    zvalues.append(z)
+    orders.append(angle)
+
+coordsX = np.array(xvalues)
+coordsY = np.array(yvalues)
+coordsZ = np.array(zvalues)
+orbit = ax.plot(xvalues, yvalues, zvalues, linewidth=1)
+
+
+# Make earth data
+# a = Equatorial radius (6378.1370 km)
+# b = Polar radius (6356.7523 km)
+u = np.linspace(0, 2 * np.pi, 1000)
+v = np.linspace(0, np.pi, 1000)
+x = 6378.1370 * np.outer(np.cos(u), np.sin(v))
+y = 6356.7523 * np.outer(np.sin(u), np.sin(v))
+z = 6378.1370 * np.outer(np.ones(np.size(u)), np.cos(v))
+
+# Plot the earth surface
+ax.plot_surface(x, y, z, color='turquoise')
+ax.view_init(elev=10., azim=-60.)
 
 # Creating the Animation object
-satellite_ani = animation.FuncAnimation(fig, update_satelite_position, 12, interval=1, blit=False)
+satellite_ani = animation.FuncAnimation(fig, update_satelite_position, 12, interval=5, blit=False)
 
 plt.show()
