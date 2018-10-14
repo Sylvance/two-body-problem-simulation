@@ -21,9 +21,13 @@ Simulation of the classical two-body problem in the context of the earth and art
 
 ## Dependecies
 - numpy
-- scipy
-- turtle
 - matplotlib
+
+## Installation
+- Install dependencies with python-3 `pip3 install numpy matplotlib`
+
+## Running the simulation
+- Run with python-3 `python3 sim3d_animated.py`
 
 ## Author
 Sylvance Mbaka
