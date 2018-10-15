@@ -97,7 +97,7 @@ class Satellite(object):
         self.elapsed_time = self.elapsed_time + self.dt
         self.current_true_anomaly = self.calculate_current_true_anomaly()
         radius = self.orbital_radius()
-        return [radius, self.current_true_anomaly, self.inclination, self.elapsed_time]
+        return [radius, self.current_true_anomaly, self.inclination, self.elapsed_time, self.eccentricity]
     
     def compute_initial_orbit(self, true_anomaly):
         e = self.eccentricity
@@ -113,19 +113,22 @@ def update_satelite_position(number):
     r = data[0]
     v = data[1]
     i = data[2]
-    et = data[3]
+    et = str(data[3])
     x = r * math.sin(v) * math.cos(i)
     y = r * math.sin(v) * math.sin(i)
     z = r * math.cos(v)
+
+    eccentricity = data[4]
+    info = "Eccentricity: {} \nInclination: {}\nTrue Anomaly {} \nElapsed time: {}\n".format(eccentricity, i, v, et)
 
     coordsX = np.array([x])
     coordsY = np.array([y])
     coordsZ = np.array([z])
 
-    string = 'Time $t$ = '+str(et)+''
-    plt.suptitle(string)
+    # string = 'Time $t$ = '+str(et)+''
+    plt.suptitle(info)
 
-    p = ax.scatter(coordsX, coordsY, coordsZ, c='maroon', marker='o', zorder=5, s=100)
+    p = ax.scatter(coordsX, coordsY, coordsZ, c='maroon', marker='o', label='satellite', zorder=5, s=100)
     plt.pause(0.01)
     p.remove()
     return number
@@ -145,8 +148,7 @@ ax.set_ylabel('Y')
 ax.set_zlim3d([-8000, 8000.0])
 ax.set_zlabel('Z')
 
-ax.set_title('\n \n Two Body Problem simulation: 1KUNS-PF Satellite')
-ax.legend()
+# ax.set_title('Two Body Problem simulation: 1KUNS-PF Satellite')
 xvalues = []
 yvalues = []
 zvalues = []
@@ -167,7 +169,7 @@ for angle in np.arange(0.0, 360.0, 0.1):
 coordsX = np.array(xvalues)
 coordsY = np.array(yvalues)
 coordsZ = np.array(zvalues)
-orbit = ax.plot(xvalues, yvalues, zvalues, linewidth=1)
+orbit = ax.plot(xvalues, yvalues, zvalues, label='orbit', linewidth=1)
 
 
 # Make earth data
@@ -180,7 +182,7 @@ y = 6356.7523 * np.outer(np.sin(u), np.sin(v))
 z = 6378.1370 * np.outer(np.ones(np.size(u)), np.cos(v))
 
 # Plot the earth surface
-ax.plot_surface(x, y, z, color='turquoise')
+ax.plot_surface(x, y, z, color='turquoise', label='earth')
 ax.view_init(elev=10., azim=-60.)
 
 # Creating the Animation object
