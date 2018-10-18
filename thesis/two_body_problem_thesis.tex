@@ -1,0 +1,162 @@
+\documentclass[12pt,twoside]{report}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[a4paper,width=150mm,top=25mm,bottom=25mm,bindingoffset=6mm]{geometry}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{}
+\fancyhead[RO,LE]{TOWARDS A THREE-BODY PROBLEM}
+\fancyfoot{}
+\fancyfoot[LE,RO]{\thepage}
+\fancyfoot[LO,CE]{Chapter \thechapter}
+\fancyfoot[CO,RE]{Sylvance Mbaka}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\usepackage[style=authoryear,sorting=none]{biblatex}
+\addbibresource{references.bib}
+
+\usepackage{color}
+\usepackage{listings}
+\usepackage{setspace}
+\definecolor{Code}{rgb}{0,0,0}
+\definecolor{Decorators}{rgb}{0.5,0.5,0.5}
+\definecolor{Numbers}{rgb}{0.5,0,0}
+\definecolor{MatchingBrackets}{rgb}{0.25,0.5,0.5}
+\definecolor{Keywords}{rgb}{0,0,1}
+\definecolor{self}{rgb}{0,0,0}
+\definecolor{Strings}{rgb}{0,0.63,0}
+\definecolor{Comments}{rgb}{0,0.63,1}
+\definecolor{Backquotes}{rgb}{0,0,0}
+\definecolor{Classname}{rgb}{0,0,0}
+\definecolor{FunctionName}{rgb}{0,0,0}
+\definecolor{Operators}{rgb}{0,0,0}
+\definecolor{Background}{rgb}{0.98,0.98,0.98}
+\lstdefinelanguage{Python}{
+	numbers=left,
+	numberstyle=\footnotesize,
+	numbersep=1em,
+	xleftmargin=1em,
+	framextopmargin=2em,
+	framexbottommargin=2em,
+	showspaces=false,
+	showtabs=false,
+	showstringspaces=false,
+	frame=l,
+	tabsize=4,
+	% Basic
+	basicstyle=\ttfamily\small\setstretch{1},
+	backgroundcolor=\color{Background},
+	% Comments
+	commentstyle=\color{Comments}\slshape,
+	% Strings
+	stringstyle=\color{Strings},
+	morecomment=[s][\color{Strings}]{"""}{"""},
+	morecomment=[s][\color{Strings}]{'''}{'''},
+	% keywords
+	morekeywords={import,from,class,def,for,while,if,is,in,elif,else,not,and,or,print,break,continue,return,True,False,None,access,as,,del,except,exec,finally,global,import,lambda,pass,print,raise,try,assert},
+	keywordstyle={\color{Keywords}\bfseries},
+	% additional keywords
+	morekeywords={[2]@invariant,pylab,numpy,np,scipy},
+	keywordstyle={[2]\color{Decorators}\slshape},
+	emph={self},
+	emphstyle={\color{self}\slshape},
+	%
+}
+
+\title{TOWARDS A THREE-BODY PROBLEM}
+\author{Sylvance Mbaka}
+\date{26th October 2018}
+
+\begin{document}
+
+\input{titlepage}
+
+\input{abstract}
+
+\chapter*{Declaration}
+I  hereby  declare  that  this  research proposal is  my  own work,  and  has  not  been  submitted  at  any  other university  for  purposes  of  examination  or  as  a  research  proposal.  All  sources  used  have  been  acknowledged  by  means  of  proper  references.
+
+\vspace{0.9cm}
+\textbf{Sylvance Kerandi Mbaka}\\
+\\
+Signature: .....................................\\
+Date: .............................................\\
+
+This  research  proposal  has  been  submitted  with  the  approval  from  my  supervisor: \\
+Dr. Okeyo George Maumba\\
+Lecturer, Department of Physics\\
+Email: maumba@uonbi.ac.ke\\
+University of Nairobi\\
+Nairobi, Kenya.\\
+
+\textbf{Dr. Okeyo George Maumba}\\
+\\
+Signature: .....................................\\
+Date: .............................................\\
+
+\chapter*{Dedication}
+To my two siblings, mum and dad. To future endeavors.
+
+\chapter*{Acknowledgements}
+I want to thank the department of physics for imparting the skills that have led to this project. I would like to thank my supervisor, Dr Maumba, for inspiring me to undertake this line of research. I thank God for everything.
+
+\tableofcontents
+
+\listoffigures
+
+\listoftables
+
+\chapter{Introduction}
+\input{chapters/introduction}
+
+\chapter{Literature Review}
+\input{chapters/chapter02}
+
+\chapter{Theoretical Input: Two-Body Problem}
+\input{chapters/chapter03}
+
+\chapter{Methodology}
+\input{chapters/chapter04}
+
+\chapter{Results and Discussion}
+\input{chapters/chapter05}
+
+\chapter{Recommendations and Conclusions}
+\input{chapters/conclusion}
+
+\begin{thebibliography}{1}
+	
+	\bibitem{bib1}
+	Peter Fortescue, John Stark, Graham Swinerd.
+	\newblock {\em \mbox{Spacecrafts Engineering Systems} }, Wiley, 2003.
+	
+	\bibitem{bib2}
+	Aamport.Oliver Montenbruck, Eberhard Gill.
+	\newblock {\em \mbox{Satellite Orbits} }, Springer, 2001.
+	
+	\bibitem{bib3}
+	Roger R. Bate, Donald D. Mueller, Jerry E. White.
+	\newblock {\em \mbox{Fundamentals of Astrodynamics}  }, Dover, 1971.
+	
+	\bibitem{bib4}
+	Jon Toellner.
+	\newblock \(https://www.youtube.com/watch?v=U_KJtzJl5_c \),\\
+	\newblock {\em \mbox{Orbital Dynamics The Two Body Problem}}, Youtube, 2018.
+	
+	\bibitem{bib5}
+	Brittanica of Science.
+	\newblock \(www.britannica.com/science/celestial-mechanics-physics\),
+	\newblock {\em \mbox{Celestial Mechanics Physics}}, Brittanica of Science, 2018.    
+	
+	
+\end{thebibliography}
+
+\appendix
+\chapter{Appendix Title}
+\input{chapters/appendix}
+
+\end{document}

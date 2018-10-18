@@ -19,7 +19,8 @@ M = 5.9737e24
 
 class Satellite(object):
     """Class for Satellite."""
-    def __init__(self, mass, eccentricity, semi_major_axis, inclination, true_anomaly):
+    def __init__(self, mass, eccentricity, semi_major_axis,
+                 inclination, true_anomaly):
         super(Satellite, self).__init__()
         self.mass = mass
         self.eccentricity = eccentricity
@@ -60,7 +61,8 @@ class Satellite(object):
     def eccentric_anomaly(self):
         e = self.eccentricity
         mu = math.radians(self.current_true_anomaly)
-        return math.acos((e + math.cos(mu)) / (1 + e * math.cos(mu))) # result in radians
+        return math.acos((e + math.cos(mu)) / \
+               (1 + e * math.cos(mu))) # result in radians
 
     def mean_anomaly(self):
         e = self.eccentricity
@@ -72,7 +74,11 @@ class Satellite(object):
         return math.sqrt(GM / math.pow(a, 3))
 
     def calculate_current_true_anomaly(self):
-        # mean anomaly given time step, dt = t - t0, initial angle for the true_anomaly and mean motion, n
+        """
+        mean anomaly given time step, dt = t - t0,
+        initial angle
+        for the true_anomaly and mean motion, n
+        """
         e = self.eccentricity
         Mo = self.mean_anomaly()
         n = self.mean_motion()
@@ -86,42 +92,50 @@ class Satellite(object):
         mu = math.acos((math.cos(E) - e) / (1 - e * math.cos(E)))
         true_anomaly = math.degrees(mu)
         return true_anomaly
-    
+
     def orbital_radius(self):
         e = self.eccentricity
         m = self.current_true_anomaly
         a = self.semi_major_axis
         r = a*(1-math.pow(e, 2))/1+(e*math.cos(m))
         return r
-    
+
     def compute_current_postion(self):
         self.elapsed_time = self.elapsed_time + self.dt
-        self.current_true_anomaly = self.calculate_current_true_anomaly()
+        self.current_true_anomaly = \
+            self.calculate_current_true_anomaly()
         radius = self.orbital_radius()
-        return [radius, self.current_true_anomaly, self.inclination, self.elapsed_time, self.eccentricity]
-    
+        return [radius, self.current_true_anomaly, self.inclination, \
+                self.elapsed_time, self.eccentricity]
+
     def compute_initial_orbit(self, true_anomaly):
         e = self.eccentricity
         m = true_anomaly
         a = self.semi_major_axis
         r = a*(1-math.pow(e, 2))/1+(e*math.cos(m))
         return [r, true_anomaly, self.inclination]
-kuns = Satellite(1, 0.002599, 6778.8, 51.6385, 146.6117) # Satellite(mass, eccentricity, semi_major_axis, inclination, true_anomaly)
-dummy_sat = Satellite(1, 0.01, 7500, 145, 69) # Satellite(mass, eccentricity, semi_major_axis, inclination, true_anomaly)
+kuns = Satellite(1, 0.002599, 6778.8, 51.6385, 146.6117)
+# Satellite(mass, eccentricity, semi_major_axis, inclination,
+# true_anomaly)
+dummy_sat = Satellite(1, 0.01, 7500, 145, 69)
+# Satellite(mass, eccentricity, semi_major_axis, inclination,
+# true_anomaly)
 print(kuns.perigee_altitude_in_km())
 print(dummy_sat.perigee_altitude_in_km())
 def update_satelite_position(number):
     kuns_data = kuns.compute_current_postion()
     dummy_data = dummy_sat.compute_current_postion()
-    animate(kuns_data, dummy_data, 'maroon', 'green', '1KUNS-PF', 'Dummy sat')
-    # ax.set_title('Two Body Problem simulation: 1KUNS-PF Satellite')
+    animate(kuns_data, dummy_data, 'maroon', 'green',
+            '1KUNS-PF', 'Dummy sat')
+    # ax.set_title('Two Body Problem simulation:
+    #1KUNS-PF Satellite')
     return number
 
 def animate(data, data1, color, color1, label, label1):
     r = data[0]
     v = data[1]
     i = data[2]
-    
+
     r1 = data1[0]
     v1 = data1[1]
     i1 = data1[2]
@@ -136,8 +150,6 @@ def animate(data, data1, color, color1, label, label1):
     y1 = r1 * math.sin(v1) * math.sin(i1)
     z1 = r1 * math.cos(v1)
 
-    # eccentricity = data[4]
-    # info = "Eccentricity: {} \nInclination: {}\nTrue Anomaly {} \nElapsed time: {}\n".format(eccentricity, i, v, et)
 
     coordsX = np.array([x])
     coordsY = np.array([y])
@@ -149,13 +161,17 @@ def animate(data, data1, color, color1, label, label1):
 
     string = 'Time $t$ = '+str(et)+''
     plt.suptitle(string)
-    p = ax.scatter(coordsX, coordsY, coordsZ, c=color, marker='o', zorder=5, s=100, label=label)
-    n = ax.scatter(coordsX1, coordsY1, coordsZ1, c=color1, marker='o', zorder=7, s=100, label=label1)
+    p = ax.scatter(coordsX, coordsY, coordsZ, c=color,
+                    marker='o', zorder=5, s=100,
+                    label=label)
+    n = ax.scatter(coordsX1, coordsY1, coordsZ1,
+                    c=color1, marker='o',
+                    zorder=7, s=100, label=label1)
     plt.pause(0.01)
     plt.legend(loc=2)
     p.remove()
     n.remove()
-    
+
 
 # Attaching 3D axis to the figure
 fig = plt.figure()
@@ -171,7 +187,8 @@ ax.set_ylabel('Y')
 ax.set_zlim3d([-8000, 8000.0])
 ax.set_zlabel('Z')
 
-# ax.set_title('Two Body Problem simulation: 1KUNS-PF Satellite')
+# ax.set_title('Two Body Problem simulation:
+# 1KUNS-PF Satellite')
 xvalues = []
 yvalues = []
 zvalues = []
@@ -193,9 +210,13 @@ for angle in np.arange(0.0, 360.0, 0.1):
 coordsX = np.array(xvalues)
 coordsY = np.array(yvalues)
 coordsZ = np.array(zvalues)
-orbit = ax.plot(coordsX, coordsY, coordsZ, linewidth=1, color='black', label='dummy orbit')
+orbit = ax.plot(coordsX, coordsY, coordsZ, linewidth=1, \
+                color='black', label='dummy orbit')
 
-df = pd.DataFrame({"X-coordinate" : coordsX, "Y-coordinate" : coordsY, "Z-coordinate" : coordsZ, "r-value" : rvalues})
+df = pd.DataFrame({"X-coordinate" : coordsX,
+                   "Y-coordinate" : coordsY,
+                   "Z-coordinate" : coordsZ,
+                   "r-value" : rvalues})
 df.to_csv("dummy-sat.csv", index=False)
 
 for angle in np.arange(0.0, 360.0, 0.1):
@@ -214,8 +235,12 @@ for angle in np.arange(0.0, 360.0, 0.1):
 coordsX = np.array(xvalues)
 coordsY = np.array(yvalues)
 coordsZ = np.array(zvalues)
-orbit = ax.plot(coordsX, coordsY, coordsZ, linewidth=1, label='1kuns-pf orbit')
-df = pd.DataFrame({"X-coordinate" : coordsX, "Y-coordinate" : coordsY, "Z-coordinate" : coordsZ, "r-value" : rvalues})
+orbit = ax.plot(coordsX, coordsY, coordsZ, linewidth=1, \
+                label='1kuns-pf orbit')
+df = pd.DataFrame({"X-coordinate" : coordsX,
+                   "Y-coordinate" : coordsY,
+                   "Z-coordinate" : coordsZ,
+                   "r-value" : rvalues})
 df.to_csv("kuns-pf.csv", index=False)
 
 
@@ -235,6 +260,7 @@ ax.view_init(elev=-10., azim=5.)
 
 
 # Creating the Animation object
-satellite_ani = animation.FuncAnimation(fig, update_satelite_position, 12, interval=1, blit=False)
+satellite_ani = animation.FuncAnimation(fig, update_satelite_position,\
+                                        12, interval=1, blit=False)
 
 plt.show()
