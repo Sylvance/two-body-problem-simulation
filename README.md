@@ -22,6 +22,7 @@ Simulation of the classical two-body problem in the context of the earth and art
 ## Dependecies
 - numpy
 - matplotlib
+- pandas
 
 ## Installation
 - Install dependencies with python-3 `pip3 install numpy matplotlib pandas`
