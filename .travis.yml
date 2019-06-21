@@ -9,9 +9,9 @@ env:
     - secret: "my-secret-squared"
 
 before_script:
-  - docker pull "${IMAGE_NAME}:develop" || true
+  - docker pull "${IMAGE_NAME}:master" || true
 script:
-  - docker build --pull --cache-from "${IMAGE_NAME}:develop" --tag "$IMAGE_NAME" .
+  - docker build --pull --cache-from "${IMAGE_NAME}:master" --tag "$IMAGE_NAME" .
 
 after_script:
   - docker images
@@ -19,10 +19,10 @@ after_script:
 before_deploy:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - git_sha="$(git rev-parse --short HEAD)"
-  - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:develop"
-  - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:${git_sha}-develop"
+  - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:master"
+  - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:${git_sha}-master"
 deploy:
   provider: script
-  script: docker push "${IMAGE_NAME}:develop" && docker push "${IMAGE_NAME}:${git_sha}-develop"
+  script: docker push "${IMAGE_NAME}:master" && docker push "${IMAGE_NAME}:${git_sha}-master"
   on:
-    branch: develop
+    branch: master
