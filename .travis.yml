@@ -1,0 +1,28 @@
+sudo: required
+dist: trusty
+python: "3.6"
+services:
+  - docker
+env:
+  global:
+    - IMAGE_NAME=sylvance/kuns-orbit
+    - secret: "my-secret-squared"
+
+before_script:
+  - docker pull "${IMAGE_NAME}:develop" || true
+script:
+  - docker build --pull --cache-from "${IMAGE_NAME}:develop" --tag "$IMAGE_NAME" .
+
+after_script:
+  - docker images
+
+before_deploy:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - git_sha="$(git rev-parse --short HEAD)"
+  - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:develop"
+  - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:${git_sha}-develop"
+deploy:
+  provider: script
+  script: docker push "${IMAGE_NAME}:develop" && docker push "${IMAGE_NAME}:${git_sha}-develop"
+  on:
+    branch: develop
