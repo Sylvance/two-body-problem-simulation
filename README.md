@@ -24,7 +24,7 @@ Simulation of the classical two-body problem in the context of the earth and art
 - matplotlib
 
 ## Installation
-- Install dependencies with python-3 `pip3 install numpy matplotlib`
+- Install dependencies with python-3 `pip3 install numpy matplotlib pandas`
 
 ## Running the simulation
 - Run with python-3 `python3 sim3d_animated.py`
