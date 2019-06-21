@@ -1,6 +1,5 @@
 version: "3"
 services:
-  web:
-    image: sylvance/kuns-orbit
-    volumes:
-      - .:.
+  kuns-orbit:
+    restart: always
+    image: "sylvance/kuns-orbit:latest"
