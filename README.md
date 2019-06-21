@@ -24,11 +24,21 @@ Simulation of the classical two-body problem in the context of the earth and art
 - matplotlib
 - pandas
 
-## Installation
+## Running with local python
+### Installation
 - Install dependencies with python-3 `pip3 install numpy matplotlib pandas`
 
-## Running the simulation
+### Running the simulation
 - Run with python-3 `python3 sim3d_animated.py`
+
+## Running with Docker
+- Run `docker run sylvance/kuns-orbit:latest`
+
+## Running with Docker-compose
+- Run `docker up`
+
+## Acknowledgements
+- Travis pipeline - https://medium.com/mobileforgood/patterns-for-continuous-integration-with-docker-on-travis-ci-71857fff14c5
 
 ## Author
 Sylvance Mbaka
